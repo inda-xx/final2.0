@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250111_154119.png)
+
 ### Task: Create a Simple Game Application with Player Movement, Scoring System, and Enemy Interactions
 
 ---
