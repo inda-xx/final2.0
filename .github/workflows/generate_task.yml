@@ -1,0 +1,258 @@
+name: Generate Task
+
+on:
+  workflow_dispatch:
+    inputs:
+      theme:
+        description: 'Theme for the new task'
+        required: true
+        default: 'Create a simple game application that includes the following functionalities: player movement, scoring system, and enemy interactions.'
+      difficulty:
+        description: 'Difficulty level for the new task'
+        required: true
+        type: choice
+        options:
+          - medium
+        default: medium
+      language:
+        description: 'Natural language for the task description'
+        required: true
+        default: 'English'
+  push:
+    branches:
+      - task-*
+
+permissions:
+  contents: write  
+  pull-requests: write
+
+jobs:
+  generate-task-description:
+    runs-on: ubuntu-latest
+    outputs:
+      branch_name: ${{ steps.set-branch-name.outputs.branch_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai pytz requests
+      - name: Generate task description
+        id: generate-task-description
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TASK_DIFFICULTY: ${{ github.event.inputs.difficulty }}
+          TASK_THEME: ${{ github.event.inputs.theme }}
+          TASK_LANGUAGE: ${{ github.event.inputs.language }}
+        run: |
+          python scripts/generate_task_description.py "${{ secrets.OPENAI_TOKEN }}"
+      - name: Set branch name
+        id: set-branch-name
+        run: echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD)"
+
+  generate-task-image:
+    runs-on: ubuntu-latest
+    needs: generate-task-description
+    outputs:
+      branch_name: ${{ steps.set-branch-name-after-image.outputs.branch_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.generate-task-description.outputs.branch_name }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai requests
+      - name: Generate task image
+        id: generate-task-image
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_task_image.py "${{ secrets.OPENAI_TOKEN }}"
+      - name: Set Git user for GitHub Actions
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+      - name: Commit image to task
+        run: |
+          git add tasks/new_task.md
+          git commit -m "Add generated image to new task description"
+          git push origin ${{ needs.generate-task-description.outputs.branch_name }}
+      - name: Set branch name after image
+        id: set-branch-name-after-image
+        run: echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD)"
+
+  generate-solution:
+    runs-on: ubuntu-latest
+    needs: generate-task-image
+    outputs:
+      branch_name: ${{ steps.set-branch-name.outputs.branch_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.generate-task-image.outputs.branch_name }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai pytz requests
+      - name: Generate solution
+        id: generate-solution
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_solution.py "${{ secrets.OPENAI_TOKEN }}" "${{ needs.generate-task-image.outputs.branch_name }}"
+      - name: Set branch name
+        id: set-branch-name
+        run: echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD)"
+
+  adversarial-review:
+    runs-on: ubuntu-latest
+    needs: generate-solution
+    outputs:
+      branch_name: ${{ steps.set-branch-name.outputs.branch_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.generate-solution.outputs.branch_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai requests
+
+      - name: Adversarial Review - Improve Solution
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/adversarial_solution.py "${{ secrets.OPENAI_TOKEN }}" "tasks/new_task.md" ".hidden_tasks"
+
+      - name: Set branch name
+        id: set-branch-name
+        run: |
+          branch=$(git rev-parse --abbrev-ref HEAD)
+          if [ -z "$branch" ]; then
+            echo "Branch name is empty, using fallback 'default-branch'"
+            branch="default-branch"
+          fi
+          echo "::set-output name=branch_name::$branch"
+
+  generate-tests:
+    runs-on: ubuntu-latest
+    needs: generate-solution
+    outputs:
+      branch_name: ${{ steps.set-branch-name.outputs.branch_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.generate-solution.outputs.branch_name }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai requests
+      - name: Generate tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_tests.py "${{ secrets.OPENAI_TOKEN }}" "${{ needs.generate-solution.outputs.branch_name }}"
+      - name: Set branch name
+        id: set-branch-name
+        run: |
+          branch=$(git rev-parse --abbrev-ref HEAD)
+          if [ -z "$branch" ]; then
+            echo "Branch name is empty, using fallback 'default-branch'"
+            branch="default-branch"
+          fi
+          echo "::set-output name=branch_name::$branch"
+
+  adversarial-test-review:
+    runs-on: ubuntu-latest
+    needs: generate-tests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.generate-tests.outputs.branch_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai requests
+
+      - name: Adversarial Review - Improve Tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/adversarial_tests.py "${{ secrets.OPENAI_TOKEN }}" "gen_test/"
+  
+  generate-template-code:
+    runs-on: ubuntu-latest
+    needs: adversarial-review
+    outputs:
+      branch_name: ${{ steps.set-branch-name.outputs.branch_name }}
+    steps:
+      - name: Checkout repository
+        id: checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.adversarial-review.outputs.branch_name }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai requests
+      - name: Generate template code
+        id: generate-template-code
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_template_code.py "${{ secrets.OPENAI_TOKEN }}" "${{ needs.adversarial-review.outputs.branch_name }}"
+      - name: Set branch name
+        id: set-branch-name
+        run: |
+          branch=$(git rev-parse --abbrev-ref HEAD)
+          if [ -z "$branch" ]; then
+            echo "Branch name is empty, using fallback 'default-branch'"
+            branch="default-branch"
+          fi
+          echo "::set-output name=branch_name::$branch"

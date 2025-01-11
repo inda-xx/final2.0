@@ -1,0 +1,49 @@
+name: Pull Request Review
+
+on:
+  pull_request:
+    branches:
+      - task-*  # Triggers the workflow on PRs to task branches
+
+permissions:
+  contents: write
+  pull-requests: write  # Ensures the workflow can post comments on PRs
+
+jobs:
+  analyze-submission:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai pygments requests
+
+      - name: Prepare environment variables
+        run: |
+          echo "GITHUB_PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+
+      - name: Analyze Submission
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/review_submission.py
+
+      - name: Post Workflow Result
+        if: always()
+        run: |
+          echo "Workflow completed."

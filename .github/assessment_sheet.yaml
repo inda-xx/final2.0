@@ -1,0 +1,13 @@
+criteria:
+  - name: Correctness
+    weight: 0.5
+    description: "Does the code produce the correct output for all test cases?"
+  - name: Style
+    weight: 0.2
+    description: "Is the code well-formatted and adheres to style guidelines?"
+  - name: Efficiency
+    weight: 0.2
+    description: "Is the code efficient in terms of time and space complexity?"
+  - name: Documentation
+    weight: 0.1
+    description: "Is the code well-documented with comments and docstrings?"

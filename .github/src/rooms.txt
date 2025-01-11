@@ -1,0 +1,13 @@
+Room;start;You are at the Tekniska Högskolan subway station. You look around for someone handing out free samples, but there don't seem to be any today.
+Room;borggarden;You are outside in borggården, there is a cold wind blowing.
+Room;f1;You are in the main F1 lecture hall, there is a very advanced math lecture going on. You don't understand anything.
+Room;e43;You are in an empty classroom in the E building. Someone has written "I love INDA" on the blackboard
+Room;gul;You are in the Gul computer lab. Someone has left a computer running with a halfway finished INDA assignment open in the editor. You are tempted to look but manage to resist the urge.
+Exit;start;north;borggarden
+Exit;borggarden;north;f1
+Exit;borggarden;west;e43
+Exit;borggarden;south;start
+Exit;f1;south;borggarden
+Exit;e43;east;borggarden
+Exit;e43;up;gul
+Exit;gul;down;e43
