@@ -211,10 +211,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install openai requests
-      - name: Configure Git User
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
       - name: Sanitize Task Description
         id: sanitize-task
         env:
@@ -222,11 +218,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python scripts/sanitize_task_description.py "${{ secrets.OPENAI_TOKEN }}" "${{ needs.generate-solution.outputs.branch_name }}"
-      - name: Commit sanitized task description
-        run: |
-          git add tasks/new_task.md
-          git commit -m "Sanitize task description"
-          git push origin ${{ needs.generate-solution.outputs.branch_name }}
       - name: Set branch name
         id: set-branch-name
-        run: echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD))"-output name=branch_name::$(git rev-parse --abbrev-ref HEAD))"
+        run: |
+          branch=$(git rev-parse --abbrev-ref HEAD)
+          if [ -z "$branch" ]; then
+            echo "Branch name is empty, using fallback 'default-branch'"
+            branch="default-branch"
+          fi
+          echo "::set-output name=branch_name::$branch"
