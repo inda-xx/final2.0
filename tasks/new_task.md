@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250111_153608.png)
+
 ### Task: Create a Simple Game Application in Java
 
 In this task, you will design and implement a simple 2D console-based game application in Java. The game will feature **player movement**, a **scoring system**, and **enemy interactions**. This project will integrate core programming concepts, such as **using data from files to instantiate objects**, **designing classes**, and **programming creatively**. By the end of this task, you will have a fully functional game that demonstrates your understanding of object-oriented programming, file handling, and creative problem-solving.
