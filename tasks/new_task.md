@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250111_163652.png)
+
 ### Task: Build a Simple Game Application in Java
 
 **Overview**:  
