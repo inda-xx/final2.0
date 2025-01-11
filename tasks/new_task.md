@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250111_162603.png)
+
 ### Task: Build a Simple 2D Game Application
 
 **Goal**: In this task, you will create a simple 2D game application in Java that includes **player movement**, a **scoring system**, and **enemy interactions**. The game will load data about game objects (e.g., enemies, obstacles, and scoring items) from a file, use well-designed classes to represent the game entities, and encourage creative features to enhance the gameplay experience.
