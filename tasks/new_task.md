@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250111_161942.png)
+
 ### Task: Build a Simple Game Application in Java
 
 For this week's assignment, you will design and implement a **simple 2D game application** in Java. The game will allow a player to move around a grid, collect points, and avoid enemies. This task integrates the following key concepts:
