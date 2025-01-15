@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250115_024757.png)
+
 # Task: Build a Simple Game Application 🎮
 
 Welcome to your weekly challenge! This week, you’ll be building a **simple 2D game application** with three core functionalities: **player movement**, a **scoring system**, and **enemy interactions**. Along the way, you’ll explore how to design clean and reusable classes, use data from files to dynamically create game objects, and bring your creativity to life through programming. The exercises are structured to guide you step-by-step, gradually increasing in complexity.
