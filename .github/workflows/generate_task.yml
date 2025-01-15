@@ -88,6 +88,7 @@ jobs:
       - name: Commit image to task
         run: |
           git add tasks/new_task.md
+          git add tasks/images/*  
           git commit -m "Add generated image to new task description"
           git push origin ${{ needs.generate-task-description.outputs.branch_name }}
       - name: Set branch name after image
