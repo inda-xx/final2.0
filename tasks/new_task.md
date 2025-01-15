@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250115_023921.png)
+
 ### **Programming Task: Build a Simple Game Application 🎮**
 
 In this task, you will design and implement a simple 2D game application in Java. The game will include player movement, a scoring system, and interactions with enemies. Additionally, you will leverage file-based data to dynamically generate objects (e.g., enemies or game levels), design well-structured and cohesive classes, and apply your creativity to make the game enjoyable and functional. This project integrates key programming concepts, helping you practice object-oriented programming, file I/O, and creative problem-solving.
