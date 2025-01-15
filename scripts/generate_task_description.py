@@ -82,6 +82,7 @@ def main(api_key):
         "The students are first year computer science students with basic programming capabilities."
         f"The goal of the course is to introduce and help them learn key programming concepts based on the weekly learning goals:\n{learning_goals}\n."
         "The tasks should be solvable within one week time frame."
+        "The code snippets provided should only provide a scaffolding and not reveal any answer or solutions to the students."
     )
     user_message = (
         f"Create a high-level programming task description in {language} with the following theme:\n\n"
@@ -90,7 +91,10 @@ def main(api_key):
         "The task description should be engaging, detailed, and structured to provide a foundation for exercises."
         "Include relevant emojies beside the title of each exercise."
         "The task description should include proper scaffolding with small code snippets to help students stay on track and not be confused."
-        "The Code should only provide a scaffolding and not reveal any answer or solutions to the students."
+        "The first two exercises are supposed to be more on the theoretical side with the concepts in Exercise 2 flowing to exercise 3 which is more about programming."
+        "Exercise 3 and 4 are more programming based but are focused on more basic programming contexts"
+        "Exercise 5 and 6 are challenging but feasible programmin exercises as part of a weekly task for a CS1 student."
+        
     )
 
     task_description = generate_task_step(system_message, user_message)
@@ -103,7 +107,7 @@ def main(api_key):
         "Based on this, create the first two exercises:\n"
         "- **Exercises 1 & 2**: Focus on theoretical aspects of the learning goals. Challenge students' understanding through conceptual questions about CS concepts involved in the task without requiring significant coding."
         "These exercises should introduce the overall task and prepare students for subsequent coding activities, as noted they are only the 1&2 exercises out of 6"
-        "Hold these exercises short and each of them to ca 300 - 400 words max."
+        "Hold these exercises short and concise each of them to ca 300 - 400 words max."
     )
 
     exercises_1_2 = generate_task_step(system_message, user_message, max_tokens=900)
