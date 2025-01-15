@@ -91,7 +91,7 @@ def main(api_key):
         "The task description should include proper scaffolding with small code snippets to help students stay on track and not be confused"
     )
 
-    task_description = generate_task_step(system_message, user_message, max_tokens=600)
+    task_description = generate_task_step(system_message, user_message)
     print(task_description)
 
     # Step 2: Generate Exercises 1 & 2 (with 600 token limit)
@@ -101,9 +101,10 @@ def main(api_key):
         "Based on this, create the first two exercises:\n"
         "- **Exercises 1 & 2**: Focus on theoretical aspects of the learning goals. Challenge students' understanding through conceptual questions about CS concepts involved in the task without requiring significant coding."
         "These exercises should introduce the overall task and prepare students for subsequent coding activities, as noted they are only the 1&2 exercises out of 6"
+        "Hold these tasks short and each of them to ca 300 - 400 words."
     )
 
-    exercises_1_2 = generate_task_step(system_message, user_message, max_tokens=600)
+    exercises_1_2 = generate_task_step(system_message, user_message, max_tokens=900)
     print(exercises_1_2)
 
     # Step 3: Generate Exercises 3 & 4
