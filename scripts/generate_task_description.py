@@ -88,7 +88,9 @@ def main(api_key):
         f"**Theme**: {theme}\n\n"
         f"The task must include and integrate the following learning goals:\n{learning_goals}\n\n"
         "The task description should be engaging, detailed, and structured to provide a foundation for exercises."
-        "The task description should include proper scaffolding with small code snippets to help students stay on track and not be confused"
+        "Include relevant emojies beside the title of each exercise."
+        "The task description should include proper scaffolding with small code snippets to help students stay on track and not be confused."
+        "The Code should only provide a scaffolding and not reveal any answer or solutions to the students."
     )
 
     task_description = generate_task_step(system_message, user_message)
@@ -101,7 +103,7 @@ def main(api_key):
         "Based on this, create the first two exercises:\n"
         "- **Exercises 1 & 2**: Focus on theoretical aspects of the learning goals. Challenge students' understanding through conceptual questions about CS concepts involved in the task without requiring significant coding."
         "These exercises should introduce the overall task and prepare students for subsequent coding activities, as noted they are only the 1&2 exercises out of 6"
-        "Hold these tasks short and each of them to ca 300 - 400 words."
+        "Hold these exercises short and each of them to ca 300 - 400 words max."
     )
 
     exercises_1_2 = generate_task_step(system_message, user_message, max_tokens=900)
