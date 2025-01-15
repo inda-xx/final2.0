@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250115_021040.png)
+
 ### Task Description: Build a Simple Game Application in Java
 
 **Theme**: Create a simple game application that includes **player movement**, a **scoring system**, and **enemy interactions**.
