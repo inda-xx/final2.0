@@ -24,16 +24,19 @@ def main(api_key):
     base_settings = {
         "model": "chatgpt-4o-latest",
         "temperature": 0.7,
-        "max_tokens": 1500
     }
 
-    # Function to make API calls
-    def generate_task_step(system_message, user_message):
+    # Function to make API calls with configurable token limit
+    def generate_task_step(system_message, user_message, max_tokens=1500):
         messages = [
             {"role": "system", "content": system_message},
             {"role": "user", "content": user_message}
         ]
-        response = client.chat.completions.create(messages=messages, **base_settings)
+        response = client.chat.completions.create(
+            messages=messages, 
+            **base_settings,
+            max_tokens=max_tokens
+        )
         return response.choices[0].message.content
 
     # Step 1: Generate Task Theme Description
@@ -88,10 +91,11 @@ def main(api_key):
         "The task description should include proper scaffolding with small code snippets to help students stay on track and not be confused"
     )
 
-    task_description = generate_task_step(system_message, user_message)
+    task_description = generate_task_step(system_message, user_message, max_tokens=600)
     print(task_description)
 
-    # Step 2: Generate Exercises 1 & 2
+    # Step 2: Generate Exercises 1 & 2 (with 600 token limit)
+    
     user_message = (
         f"The following is the task description so far:\n\n{task_description}\n\n"
         "Based on this, create the first two exercises:\n"
@@ -99,7 +103,7 @@ def main(api_key):
         "These exercises should introduce the overall task and prepare students for subsequent coding activities, as noted they are only the 1&2 exercises out of 6"
     )
 
-    exercises_1_2 = generate_task_step(system_message, user_message)
+    exercises_1_2 = generate_task_step(system_message, user_message, max_tokens=600)
     print(exercises_1_2)
 
     # Step 3: Generate Exercises 3 & 4
