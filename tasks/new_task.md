@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250126_213444.png)
+
 ### 🎮 Weekly Programming Task: "Dungeon Quest" Text-Based Adventure Game  
 **Theme**: Create a console-based game where a player navigates a dungeon, collects treasures, avoids enemies, and earns points.  
 
