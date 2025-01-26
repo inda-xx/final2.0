@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250126_205044.png)
+
 ### 🎮 **Task: Create a Simple Game Application**  
 **Theme**: Build a simple game application that includes player movement, a scoring system, and enemy interactions. This task will help you integrate key programming concepts such as **Using Data from Files to Instantiate Objects**, **Designing Classes**, and **Programming Creatively**.  
 
