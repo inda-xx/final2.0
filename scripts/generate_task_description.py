@@ -13,16 +13,19 @@ def main(api_key):
         print("Error: OpenAI API key is missing.")
         sys.exit(1)
 
-    # Initialize the OpenAI client
-    client = OpenAI(api_key=api_key)
+    # Initialize the OpenAI client with DeepSeek base URL
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://api.deepseek.com"
+    )
 
     # Extract theme and language from environment variables
     theme = os.getenv("TASK_THEME", "Create a basic Java application with the following requirements.")
     language = os.getenv("TASK_LANGUAGE", "English")
 
-    # Shared settings for all API calls
+    # Update base settings to use DeepSeek model
     base_settings = {
-        "model": "chatgpt-4o-latest",
+        "model": "deepseek-chat",  # Changed from deepseek-reasoner to deepseek-chat
         "temperature": 0.7,
     }
 
