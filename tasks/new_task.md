@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250126_205345.png)
+
 # 🎮 Weekly Task: "Dungeon Explorer" Game Development  
 **Theme**: Build a text-based dungeon exploration game where players navigate a grid, collect treasures, avoid enemies, and track their score.  
 
