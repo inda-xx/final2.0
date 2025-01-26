@@ -25,7 +25,7 @@ def main(api_key):
 
     # Update base settings to use DeepSeek model
     base_settings = {
-        "model": "deepseek-chat",  # Changed from deepseek-reasoner to deepseek-chat
+        "model": "deepseek-reasoner",  # Changed from deepseek-reasoner to deepseek-chat
         "temperature": 0.7,
     }
 
