@@ -39,6 +39,7 @@ def main(api_key):
             messages=messages, 
             **base_settings,
             max_tokens=max_tokens
+            
         )
         return response.choices[0].message.content
 
