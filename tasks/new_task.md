@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250206_001321.png)
+
 # **Weekly Programming Task: Building a Simple Game in Java 🎮**  
 
 ## **Task Overview**  
