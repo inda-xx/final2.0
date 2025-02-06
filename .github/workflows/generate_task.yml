@@ -12,11 +12,17 @@ on:
         required: true
         type: choice
         options:
+          - easy
           - medium
+          - hard
         default: medium
       language:
         description: 'Natural language for the task description'
         required: true
+        type: choice
+        options:
+          - English
+          - French
         default: 'English'
   push:
     branches:
@@ -45,13 +51,13 @@ jobs:
       - name: Generate task description
         id: generate-task-description
         env:
-          OPENAI_API_KEY: ${{ secrets.AVIDS_PERSONAL_KEY_DONT_BANKRUPT_ME }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TASK_DIFFICULTY: ${{ github.event.inputs.difficulty }}
           TASK_THEME: ${{ github.event.inputs.theme }}
           TASK_LANGUAGE: ${{ github.event.inputs.language }}
         run: |
-          python scripts/generate_task_description.py "${{ secrets.AVIDS_PERSONAL_KEY_DONT_BANKRUPT_ME }}"
+          python scripts/generate_task_description.py "${{ secrets.OPENAI_TOKEN }}"
       - name: Set branch name
         id: set-branch-name
         run: echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD)"
@@ -88,7 +94,6 @@ jobs:
       - name: Commit image to task
         run: |
           git add tasks/new_task.md
-          git add tasks/images/*  
           git commit -m "Add generated image to new task description"
           git push origin ${{ needs.generate-task-description.outputs.branch_name }}
       - name: Set branch name after image
@@ -116,10 +121,10 @@ jobs:
       - name: Generate solution
         id: generate-solution
         env:
-          OPENAI_API_KEY: ${{ secrets.AVIDS_PERSONAL_KEY_DONT_BANKRUPT_ME }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python scripts/generate_solution.py "${{ secrets.AVIDS_PERSONAL_KEY_DONT_BANKRUPT_ME }}" "${{ needs.generate-task-image.outputs.branch_name }}"
+          python scripts/generate_solution.py "${{ secrets.OPENAI_TOKEN }}" "${{ needs.generate-task-image.outputs.branch_name }}"
       - name: Set branch name
         id: set-branch-name
         run: echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD)"
@@ -193,4 +198,3 @@ jobs:
             branch="default-branch"
           fi
           echo "::set-output name=branch_name::$branch"
-
