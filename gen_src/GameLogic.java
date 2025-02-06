@@ -3,11 +3,13 @@ import java.util.Random;
 
 public class GameLogic {
     public static boolean checkCollision(Player player, List<Enemy> enemies) {
+
         for (Enemy enemy : enemies) {
             if (player.getX() == enemy.getX() && player.getY() == enemy.getY()) {
                 return true;
             }
         }
+
         return false;
     }
 

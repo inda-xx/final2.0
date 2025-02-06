@@ -15,6 +15,7 @@ public class Game {
             String move = scanner.nextLine();
 
             switch (move) {
+
                 case "w": player.move(0, -1, GRID_SIZE); break;
                 case "s": player.move(0, 1, GRID_SIZE); break;
                 case "a": player.move(-1, 0, GRID_SIZE); break;
@@ -34,6 +35,7 @@ public class Game {
                 System.out.println("Congratulations! You win!");
                 break;
             }
+
         }
         scanner.close();
     }

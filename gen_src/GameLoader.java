@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class GameLoader {
     public static List<Enemy> loadEnemies(String filename) {
+
         List<Enemy> enemies = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -16,5 +17,6 @@ public class GameLoader {
             System.out.println("Error loading enemies: " + e.getMessage());
         }
         return enemies;
+
     }
 }

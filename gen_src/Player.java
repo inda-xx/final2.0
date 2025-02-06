@@ -3,6 +3,7 @@ public class Player {
     private int score;
 
     public Player(int startX, int startY) {
+
         this.x = startX;
         this.y = startY;
         this.score = 0;
@@ -23,4 +24,5 @@ public class Player {
     public int getX() { return x; }
     public int getY() { return y; }
     public int getScore() { return score; }
+
 }

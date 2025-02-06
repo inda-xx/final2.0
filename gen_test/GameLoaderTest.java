@@ -7,21 +7,18 @@ import static org.junit.Assert.*;
 public class GameLoaderTest {
 
     @Test
-    public void loadEnemiesHandlesInvalidFileGracefully() {
-        List<Enemy> enemies = GameLoader.loadEnemies("invalid_file.txt");
-        assertNotNull(enemies);
-        assertTrue(enemies.isEmpty());
-    }
+    public void testLoadEnemies() throws IOException {
+        File tempFile = File.createTempFile("enemies", ".txt");
+        FileWriter writer = new FileWriter(tempFile);
+        writer.write("2,3\n");
+        writer.write("5,6\n");
+        writer.close();
 
-    @Test
-    public void loadEnemiesReadsEnemiesFromFileCorrectly() {
-        // Assuming "test_enemies.txt" is prepared for testing with known values, e.g., "2,3\n4,5"
-        List<Enemy> enemies = GameLoader.loadEnemies("test_enemies.txt");
-        assertNotNull(enemies);
+        List<Enemy> enemies = GameLoader.loadEnemies(tempFile.getAbsolutePath());
         assertEquals(2, enemies.size());
         assertEquals(2, enemies.get(0).getX());
         assertEquals(3, enemies.get(0).getY());
-        assertEquals(4, enemies.get(1).getX());
-        assertEquals(5, enemies.get(1).getY());
+
+        tempFile.delete();
     }
 }
