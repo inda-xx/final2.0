@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250206_002336.png)
+
 # **Task: Library Management System 📚**  
 
 ### **Task Overview**  
