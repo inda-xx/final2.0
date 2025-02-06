@@ -6,7 +6,13 @@ on:
       theme:
         description: 'Theme for the new task'
         required: true
-        default: 'Create a simple game application that includes the following functionalities: player movement, scoring system, and enemy interactions.'
+        default: |
+          Create a simple game application that includes the following functionalities:
+          - Player movement and controls
+          - Scoring system and point tracking
+          - Enemy interactions and behavior
+          - Game state management
+          - Basic collision detection
       difficulty:
         description: 'Difficulty level for the new task'
         required: true
@@ -94,6 +100,7 @@ jobs:
       - name: Commit image to task
         run: |
           git add tasks/new_task.md
+          git add tasks/images/*  
           git commit -m "Add generated image to new task description"
           git push origin ${{ needs.generate-task-description.outputs.branch_name }}
       - name: Set branch name after image
