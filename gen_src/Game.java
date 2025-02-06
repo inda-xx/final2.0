@@ -10,20 +10,30 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            // Display score and prompt for move
-            
+            System.out.println("Score: " + player.getScore());
+            System.out.print("Enter move (w/a/s/d or 'q' to quit): ");
             String move = scanner.nextLine();
 
             switch (move) {
-                case "w": 
-                case "s": 
-                case "a": 
-                case "d": 
-                case "q": return;
-                default: 
+                case "w": player.move(0, -1, GRID_SIZE); break;
+                case "s": player.move(0, 1, GRID_SIZE); break;
+                case "a": player.move(-1, 0, GRID_SIZE); break;
+                case "d": player.move(1, 0, GRID_SIZE); break;
+                case "q": System.out.println("Game Over!"); return;
+                default: System.out.println("Invalid move");
             }
 
-            // Move enemies and check for collisions
+            GameLogic.moveEnemies(enemies, GRID_SIZE);
+
+            if (GameLogic.checkCollision(player, enemies)) {
+                System.out.println("You were caught by an enemy! Game Over!");
+                break;
+            }
+
+            if (player.getScore() >= 10) {
+                System.out.println("Congratulations! You win!");
+                break;
+            }
         }
         scanner.close();
     }
