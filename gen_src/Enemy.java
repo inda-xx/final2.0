@@ -2,18 +2,21 @@ public class Enemy {
     private int x, y;
 
     public Enemy(int startX, int startY) {
-        // Constructor implementation needed
+
+        this.x = startX;
+        this.y = startY;
     }
 
     public void move(int dx, int dy, int gridSize) {
-        // Movement logic needed
+        int newX = x + dx;
+        int newY = y + dy;
+        if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize) {
+            x = newX;
+            y = newY;
+        }
     }
 
-    public int getX() {
-        // Return x-coordinate
-    }
+    public int getX() { return x; }
+    public int getY() { return y; }
 
-    public int getY() {
-        // Return y-coordinate
-    }
 }

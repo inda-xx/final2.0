@@ -3,22 +3,26 @@ public class Player {
     private int score;
 
     public Player(int startX, int startY) {
-        // Initialize player position and score
+
+        this.x = startX;
+        this.y = startY;
+        this.score = 0;
     }
 
     public void move(int dx, int dy, int gridSize) {
-        // Update position if within bounds and adjust score
+        int newX = x + dx;
+        int newY = y + dy;
+        if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize) {
+            x = newX;
+            y = newY;
+            score++;
+        } else {
+            System.out.println("Cannot move outside the grid!");
+        }
     }
 
-    public int getX() { 
-        // Return x position
-    }
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getScore() { return score; }
 
-    public int getY() { 
-        // Return y position
-    }
-
-    public int getScore() { 
-        // Return score
-    }
 }
