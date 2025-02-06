@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250206_120004.png)
+
 # **🏎️ F1 Racing Simulator: A Programming Challenge**  
 
 ## **Overview**  
