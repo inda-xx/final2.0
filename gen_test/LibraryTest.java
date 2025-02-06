@@ -5,67 +5,99 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LibraryTest {
-    
-    @Test
-    public void testAddBook() {
-        Library library = new Library();
-        Book book = new Book("123-456-789", "Test Book", "Author Name", "Fiction", 2020);
-        library.addBook(book);
-        List<Book> books = library.getBooksSortedByTitle();
-        assertEquals(1, books.size());
-        assertEquals("Test Book", books.get(0).getTitle());
-    }
 
     @Test
-    public void testGetBooksByGenre() {
-        Library library = new Library();
-        Book book1 = new Book("123", "Fiction Book", "Author A", "Fiction", 2010);
-        Book book2 = new Book("456", "Non-Fiction Book", "Author B", "Non-Fiction", 2015);
-        Book book3 = new Book("789", "Another Fiction", "Author C", "Fiction", 2020);
-        library.addBook(book1);
-        library.addBook(book2);
-        library.addBook(book3);
-
-        List<Book> fictionBooks = library.getBooksByGenre("Fiction");
-        assertEquals(2, fictionBooks.size());
-        assertEquals("Another Fiction", fictionBooks.get(0).getTitle());
-    }
-
-    @Test
-    public void testSearchBooksByTitle() {
-        Library library = new Library();
-        Book book1 = new Book("123", "The Great Adventure", "Author X", "Fiction", 2005);
-        Book book2 = new Book("456", "A Great Journey", "Author Y", "Adventure", 2012);
-        Book book3 = new Book("789", "Simple Book", "Author Z", "Non-Fiction", 2018);
-        library.addBook(book1);
-        library.addBook(book2);
-        library.addBook(book3);
-
-        List<Book> searchResults = library.searchBooksByTitle("Great");
-        assertEquals(2, searchResults.size());
-        assertTrue(searchResults.get(0).getTitle().contains("Great"));
+    public void testBookCreation() {
+        Book book = new Book(1, "The Great Gatsby", "F. Scott Fitzgerald", 1925);
+        assertEquals(1, book.getId());
+        assertEquals("The Great Gatsby", book.getTitle());
+        assertEquals("F. Scott Fitzgerald", book.getAuthor());
+        assertEquals(1925, book.getPublicationYear());
+        assertFalse(book.isBorrowed());
     }
 
     @Test
     public void testBorrowBook() {
-        Library library = new Library();
-        Book book = new Book("123-456-789", "Test Book", "Author Name", "Fiction", 2020);
-        library.addBook(book);
-        
-        assertTrue(library.borrowBook("123-456-789"));
-        assertFalse(library.borrowBook("123-456-789"));
-        assertFalse(library.borrowBook("999-999-999"));
+        Book book = new Book(1, "1984", "George Orwell", 1949);
+        assertFalse(book.isBorrowed());
+        book.borrowBook();
+        assertTrue(book.isBorrowed());
+        book.borrowBook();  // Should not change state
+        assertTrue(book.isBorrowed());
     }
 
     @Test
     public void testReturnBook() {
+        Book book = new Book(1, "Brave New World", "Aldous Huxley", 1932);
+        book.borrowBook();
+        assertTrue(book.isBorrowed());
+        book.returnBook();
+        assertFalse(book.isBorrowed());
+        book.returnBook();  // Should not change state
+        assertFalse(book.isBorrowed());
+    }
+
+    @Test
+    public void testLibraryAddBook() {
         Library library = new Library();
-        Book book = new Book("123-456-789", "Test Book", "Author Name", "Fiction", 2020);
+        assertEquals(0, library.getBooks().size());
+
+        library.addBook(new Book(1, "Moby Dick", "Herman Melville", 1851));
+        assertEquals(1, library.getBooks().size());
+    }
+
+    @Test
+    public void testSearchBookByTitle() {
+        Library library = new Library();
+        library.addBook(new Book(1, "The Hobbit", "J.R.R. Tolkien", 1937));
+        library.addBook(new Book(2, "The Lord of the Rings", "J.R.R. Tolkien", 1954));
+
+        List<Book> foundBooks = library.searchBookByTitle("The Hobbit");
+        assertEquals(1, foundBooks.size());
+        assertEquals("The Hobbit", foundBooks.get(0).getTitle());
+
+        foundBooks = library.searchBookByTitle("The Lord of the Rings");
+        assertEquals(1, foundBooks.size());
+
+        foundBooks = library.searchBookByTitle("Nonexistent");
+        assertTrue(foundBooks.isEmpty());
+    }
+
+    @Test
+    public void testBorrowAndReturnBookInLibrary() {
+        Library library = new Library();
+        Book book = new Book(1, "Dune", "Frank Herbert", 1965);
+
         library.addBook(book);
+        library.borrowBook(1);
+        assertTrue(book.isBorrowed());
+
+        library.returnBook(1);
+        assertFalse(book.isBorrowed());
+    }
+
+    @Test
+    public void testBorrowNonexistentBook() {
+        Library library = new Library();
+        library.borrowBook(99);  // Should not throw exception
+    }
+
+    @Test
+    public void testReturnNonexistentBook() {
+        Library library = new Library();
+        library.returnBook(99);  // Should not throw exception
+    }
+
+    @Test
+    public void testLoadBooksFromFile() {
+        Library library = new Library();
+        library.loadBooksFromFile("test_books.txt");
         
-        assertFalse(library.returnBook("123-456-789"));
-        library.borrowBook("123-456-789");
-        assertTrue(library.returnBook("123-456-789"));
+        // Assuming test_books.txt contains entries
+        assertTrue(library.getBooks().size() > 0);
     }
 }
+
+import org.junit.Test;
+import static org.junit.Assert.*;
 
