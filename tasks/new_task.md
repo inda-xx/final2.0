@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250206_003007.png)
+
 # **Programming Task: Library Book Management System 📚**
 
 ## **Task Overview**
