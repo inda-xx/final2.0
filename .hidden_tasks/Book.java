@@ -1,48 +1,34 @@
 public class Book {
-    private String isbn;
+    private int id;
     private String title;
     private String author;
-    private String genre;
-    private int year;
+    private int publicationYear;
     private boolean isBorrowed;
 
-    public Book(String isbn, String title, String author, String genre, int year) {
-        this.isbn = isbn;
+    public Book(int id, String title, String author, int publicationYear) {
+        this.id = id;
         this.title = title;
         this.author = author;
-        this.genre = genre;
-        this.year = year;
-        this.isBorrowed = false;
+        this.publicationYear = publicationYear;
+        this.isBorrowed = false; 
     }
 
-    public String getIsbn() {
-        return isbn;
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
     public boolean isBorrowed() {
         return isBorrowed;
     }
 
-    public void borrow() {
+    public void borrowBook() {
         if (!isBorrowed) {
             isBorrowed = true;
-            System.out.println(title + " has been borrowed.");
+            System.out.println(title + " has been borrowed!");
         } else {
             System.out.println(title + " is already borrowed.");
         }
@@ -51,9 +37,15 @@ public class Book {
     public void returnBook() {
         if (isBorrowed) {
             isBorrowed = false;
-            System.out.println(title + " has been returned.");
+            System.out.println(title + " has been returned!");
         } else {
             System.out.println(title + " was not borrowed.");
         }
+    }
+
+    @Override
+    public String toString() {
+        return id + ": " + title + " by " + author + " (" + publicationYear + ") " 
+               + (isBorrowed ? "[Borrowed]" : "[Available]");
     }
 }

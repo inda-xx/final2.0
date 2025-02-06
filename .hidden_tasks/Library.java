@@ -2,68 +2,64 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Library {
-    private List<Book> books;
-
-    public Library() {
-        this.books = new ArrayList<>();
-    }
-
-    public void addBook(Book book) {
-        books.add(book);
-    }
-
-    public List<Book> getBooksByGenre(String genre) {
-        return books.stream()
-                    .filter(book -> book.getGenre().equalsIgnoreCase(genre))
-                    .sorted(Comparator.comparingInt(Book::getYear).reversed())
-                    .collect(Collectors.toList());
-    }
+    private List<Book> books = new ArrayList<>();
 
     public void loadBooksFromFile(String filename) {
-        books.addAll(LibraryFileReader.readBooksFromFile(filename));
-    }
-
-    public List<Book> getBooksSortedByTitle() {
-        return books.stream()
-                    .sorted(Comparator.comparing(Book::getTitle))
-                    .collect(Collectors.toList());
-    }
-
-    public List<Book> searchBooksByTitle(String keyword) {
-        return books.stream()
-                    .filter(book -> book.getTitle().toLowerCase().contains(keyword.toLowerCase()))
-                    .collect(Collectors.toList());
-    }
-
-    public boolean borrowBook(String isbn) {
-        for (Book book : books) {
-            if (book.getIsbn().equals(isbn)) {
-                if (!book.isBorrowed()) {
-                    book.borrow();
-                    return true;
-                } else {
-                    System.out.println("Book is already borrowed.");
-                    return false;
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 4) {
+                    int id = Integer.parseInt(parts[0].trim());
+                    String title = parts[1].trim();
+                    String author = parts[2].trim();
+                    int year = Integer.parseInt(parts[3].trim());
+                    books.add(new Book(id, title, author, year));
                 }
             }
+            System.out.println("Books loaded successfully.");
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error loading books: " + e.getMessage());
         }
-        System.out.println("Book not found.");
-        return false;
     }
 
-    public boolean returnBook(String isbn) {
-        for (Book book : books) {
-            if (book.getIsbn().equals(isbn)) {
-                if (book.isBorrowed()) {
-                    book.returnBook();
-                    return true;
-                } else {
-                    System.out.println("Book was not borrowed.");
-                    return false;
-                }
+    public void displayBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No books available.");
+        } else {
+            for (Book book : books) {
+                System.out.println(book);
             }
         }
-        System.out.println("Book not found.");
-        return false;
+    }
+
+    public List<Book> searchBookByTitle(String title) {
+        List<Book> results = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                results.add(book);
+            }
+        }
+        return results;
+    }
+
+    public void borrowBook(int bookId) {
+        for (Book book : books) {
+            if (book.getId() == bookId) {
+                book.borrowBook();
+                return;
+            }
+        }
+        System.out.println("Book with ID " + bookId + " not found.");
+    }
+
+    public void returnBook(int bookId) {
+        for (Book book : books) {
+            if (book.getId() == bookId) {
+                book.returnBook();
+                return;
+            }
+        }
+        System.out.println("Book with ID " + bookId + " not found.");
     }
 }
