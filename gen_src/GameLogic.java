@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class GameLogic {
     public static boolean checkCollision(Player player, List<Enemy> enemies) {
-        // Implement collision checking logic
+        // Implement collision detection logic
         return false;
     }
 

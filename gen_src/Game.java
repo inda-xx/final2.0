@@ -10,20 +10,29 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            // Display score and prompt for move
-            
+            System.out.println("Score: " + player.getScore());
+            System.out.print("Enter move (w/a/s/d or 'q' to quit): ");
             String move = scanner.nextLine();
 
             switch (move) {
-                case "w": 
-                case "s": 
-                case "a": 
-                case "d": 
-                case "q": return;
-                default: 
+                case "w":
+                case "s":
+                case "a":
+                case "d":
+                    // Move the player accordingly
+                    break;
+                case "q":
+                    System.out.println("Game Over!");
+                    return;
+                default:
+                    System.out.println("Invalid move");
             }
 
-            // Move enemies and check for collisions
+            // Move enemies
+
+            // Check for collisions
+
+            // Check winning condition
         }
         scanner.close();
     }

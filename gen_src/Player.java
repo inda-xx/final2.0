@@ -3,22 +3,22 @@ public class Player {
     private int score;
 
     public Player(int startX, int startY) {
-        // Constructor implementation
+        // Initialize player position and score
     }
 
     public void move(int dx, int dy, int gridSize) {
-        // Implementation for moving the player while ensuring it doesn't move out of bounds
+        // Update position if within bounds and adjust score
     }
 
     public int getX() { 
-        // Return player's x-coordinate
+        // Return x position
     }
 
     public int getY() { 
-        // Return player's y-coordinate
+        // Return y position
     }
 
     public int getScore() { 
-        // Return player's score
+        // Return score
     }
 }
