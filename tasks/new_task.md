@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250206_000601.png)
+
 # 🎮 Game Development Challenge: Build a Simple Game with Player, Enemies, and Scoring
 
 ## Task Overview  
