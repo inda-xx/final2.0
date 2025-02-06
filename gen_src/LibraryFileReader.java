@@ -2,15 +2,14 @@ import java.util.List;
 
 public class LibraryFileReader {
     public static List<Book> readBooksFromFile(String filename) {
-        // Define a list to store books
+        // Initialize the list to store books
 
-        // Open the file and read line by line
+        // Open the file and read its contents line by line
 
-        // Process each line and extract book details
+        // Process each line, extracting book details
 
-        // Handle potential errors in parsing
+        // Handle potential parsing errors
 
-        // Return the list of books
-        return null; // Placeholder return
+        return null; // Replace with the actual list of books
     }
 }

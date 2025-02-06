@@ -15,28 +15,22 @@ public class Game {
             String move = scanner.nextLine();
 
             switch (move) {
-
-                case "w": player.move(0, -1, GRID_SIZE); break;
-                case "s": player.move(0, 1, GRID_SIZE); break;
-                case "a": player.move(-1, 0, GRID_SIZE); break;
-                case "d": player.move(1, 0, GRID_SIZE); break;
-                case "q": System.out.println("Game Over!"); return;
-                default: System.out.println("Invalid move");
+                case "w":
+                case "s":
+                case "a":
+                case "d":
+                    // Handle player movement
+                    break;
+                case "q":
+                    // Handle game quitting
+                    return;
+                default:
+                    // Handle invalid move
             }
 
-            GameLogic.moveEnemies(enemies, GRID_SIZE);
+            // Move enemies and check for collisions
 
-            if (GameLogic.checkCollision(player, enemies)) {
-                System.out.println("You were caught by an enemy! Game Over!");
-                break;
-            }
-
-            if (player.getScore() >= 10) {
-                System.out.println("Congratulations! You win!");
-                break;
-            }
-
+            scanner.close();
         }
-        scanner.close();
     }
 }

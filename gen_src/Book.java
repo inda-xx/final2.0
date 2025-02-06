@@ -1,44 +1,36 @@
 public class Book {
-    private String isbn;
+    private int id;
     private String title;
     private String author;
-    private String genre;
-    private int year;
+    private int publicationYear;
     private boolean isBorrowed;
 
-    public Book(String isbn, String title, String author, String genre, int year) {
+    public Book(int id, String title, String author, int publicationYear) {
         // Constructor implementation
     }
 
-    public String getIsbn() {
-        return null; // Return the ISBN
+    public int getId() {
+        // Return book ID
     }
 
     public String getTitle() {
-        return null; // Return the title
-    }
-
-    public String getAuthor() {
-        return null; // Return the author
-    }
-
-    public String getGenre() {
-        return null; // Return the genre
-    }
-
-    public int getYear() {
-        return 0; // Return the year
+        // Return book title
     }
 
     public boolean isBorrowed() {
-        return false; // Return borrow status
+        // Return whether the book is borrowed
     }
 
-    public void borrow() {
-        // Implement borrowing logic
+    public void borrowBook() {
+        // Borrow book logic
     }
 
     public void returnBook() {
-        // Implement return logic
+        // Return book logic
+    }
+
+    @Override
+    public String toString() {
+        // Return string representation of book
     }
 }
