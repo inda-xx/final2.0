@@ -6,6 +6,7 @@ showcase what you have learned so far in this course.
 
 ### 💀 Deadline
 
+
 This work should be completed before the exercise on **Friday 8 November**.
 
 **Important note** Due to this deadline, please think twice before creating your own game. It easily becomes very difficult to finish what you set out to do, so it might be better to start small so that you have something ready to hand in if you run out of time. If you do multiple commits during your development cycle you can later go back to a previous commit if you are not done by the deadline. 
