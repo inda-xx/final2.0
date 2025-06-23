@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250623_100759.png)
+
 # 🕹️ Weekly Programming Challenge: Build Your Own Mini-Game Engine!
 
 Welcome to your weekly programming challenge! This week, you’ll combine your creativity and growing programming skills to design and implement a **simple 2D game application** in Java. The game will simulate a basic environment where a player moves around, interacts with enemies, accumulates points, and can win or lose based on gameplay events.
