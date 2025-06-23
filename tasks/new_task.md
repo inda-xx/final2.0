@@ -1,3 +1,5 @@
+![Task Image](images/task_image_20250623_095608.png)
+
 **🎮 Weekly Programming Project: Build Your Own 2D Adventure Game!**
 
 Welcome to your creative challenge of the week! You will build a **simple 2D text-based or graphical game** (your choice!) that implements player movement, enemy interaction, a scoring system, and manages game state transitions like "game over" or "you win". This project will help solidify your understanding of **object-oriented programming**, **file I/O**, and **creative problem solving**.
